@@ -3,7 +3,7 @@ import seaborn as sns
 import numpy as np
 from scipy import stats
 import matplotlib.pyplot as plt
-import statsapi
+
 
 from sklearn.model_selection import train_test_split
 from sklearn.cluster import KMeans
@@ -76,7 +76,7 @@ def split_fill(df):
 
     return train, validate, test
 
-    
+
 
 
 

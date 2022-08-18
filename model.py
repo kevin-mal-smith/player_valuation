@@ -19,7 +19,7 @@ from sklearn.metrics import mean_squared_error
 
 
 train, validate, test = mlb_wrangle()
-train, validate, test = explore.model_prep
+train, validate, test = explore.model_prep(train,validate,test)
 
 def baseline_model(train,validate,test):
     x_train=train.drop(columns='owar')
@@ -74,7 +74,7 @@ def linear_model(train,validate,test):
     # initialize the ML algorithm
     lm = LinearRegression()
     rfe = RFE(lm, n_features_to_select=7)
-    rfe.fit(x_train,y_train)  
+    rfe.fit(x_train,y_train.owar)  
     feature_mask = rfe.support_
     rfe_feature = x_train.iloc[:,feature_mask].columns.tolist()
     print(rfe_feature)
@@ -90,7 +90,7 @@ def linear_model(train,validate,test):
     rmse_train = mean_squared_error(y_train.owar, y_train.lm_pred)**(1/2)
     rmse_validate = mean_squared_error(y_validate.owar, y_validate.lm_pred)**(1/2)
 
-    print("RMSE using Mean\nTrain/In-Sample: ", round(rmse_train, 2), 
+    print("RMSE using OLS\nTrain/In-Sample: ", round(rmse_train, 2), 
       "\nValidate/Out-of-Sample: ", round(rmse_validate, 2))
 
 def lasso_model(train,validate,test):
@@ -129,7 +129,7 @@ def lasso_model(train,validate,test):
     rmse_train = mean_squared_error(y_train.owar, y_train.lasso_pred)**(1/2)
     rmse_validate = mean_squared_error(y_validate.owar, y_validate.lasso_pred)**(1/2)
 
-    print("RMSE using Mean\nTrain/In-Sample: ", round(rmse_train, 2), 
+    print("RMSE using Lasso\nTrain/In-Sample: ", round(rmse_train, 2), 
       "\nValidate/Out-of-Sample: ", round(rmse_validate, 2))
 
 
@@ -176,7 +176,7 @@ def poly_model(train,validate,test):
     rmse_train = mean_squared_error(y_train.owar, y_train.lm2_pred)**(1/2)
     rmse_validate = mean_squared_error(y_validate.owar, y_validate.lm2_pred)**(1/2)
 
-    print("RMSE using Mean\nTrain/In-Sample: ", round(rmse_train, 2), 
+    print("RMSE using Polynomial\nTrain/In-Sample: ", round(rmse_train, 2), 
       "\nValidate/Out-of-Sample: ", round(rmse_validate, 2))
 
     y_test['lm2_pred'] = lm2.predict(x_test_poly2)
