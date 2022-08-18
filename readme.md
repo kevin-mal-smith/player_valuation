@@ -125,7 +125,7 @@ The tendency cluster was used in the models, but the production cluster proved l
 ---
 Here we determine the best model to use for predicting value. I ran the data through 3 different regression algorithms to determine which would perform the best
 
-The 2 degree polynomial model performed the best against baseline when predicting owar. Predicting owar on average 4 times better than baseline.
+The 2 degree polynomial model performed the best against baseline when predicting owar. Predicting owar on average 132% better than baseline.
 
 ## Delivery
 ---

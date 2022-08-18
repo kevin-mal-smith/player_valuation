@@ -65,20 +65,22 @@ def linear_model(train,validate,test):
     x_test=test.drop(columns='owar')
     y_test= test.owar
 
+  
+
+    # initialize the ML algorithm
+    lm = LinearRegression()
+    rfe = RFE(lm, n_features_to_select=7)
+    rfe.fit(x_train,y_train)  
+    feature_mask = rfe.support_
+    rfe_feature = x_train.iloc[:,feature_mask].columns.tolist()
+    print(rfe_feature)
+    
     y_train = pd.DataFrame(y_train)
     y_validate = pd.DataFrame(y_validate)
     y_test = pd.DataFrame(y_test)
     y_train.columns = ['owar']
     y_validate.columns = ['owar']
 
-    # initialize the ML algorithm
-    lm = LinearRegression()
-    rfe = RFE(lm, n_features_to_select=7)
-    rfe.fit(x_train,y_train.owar)  
-    feature_mask = rfe.support_
-    rfe_feature = x_train.iloc[:,feature_mask].columns.tolist()
-    print(rfe_feature)
-    
     linear_train = train[rfe_feature]
     linear_validate= validate[rfe_feature]
     linear_test = test[rfe_feature]
